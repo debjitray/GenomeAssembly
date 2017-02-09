@@ -1,0 +1,29 @@
+#! /usr/bin/perl -w
+use strict;
+# Takes a contig file and converts it to a bridger input contig format
+
+
+my ($entry, $dna);
+while (<>) {
+ chomp;
+ if ( /^>(.+)/ ) {
+  if ($entry) { Load() }
+  $entry = $1;
+  $dna = '';
+ } else {$dna .= $_}
+}
+
+if ($entry) {
+	Load();
+ }
+
+my $x=0;
+
+
+sub Load {
+ $x++;
+ $dna =~ s/[^a-zA-Z]//g;
+ print ">NODE_".$x."_length_".length($dna)."_cov_153.902_ID_4562149"."\n";
+ print $dna."\n";
+}
+
